@@ -11,28 +11,24 @@ class Todo:
         self.root.config(bg='white')
 
         # Add header
-        self.label = Label(self.root, text="To-Do List App", font="ariel 25 bold", width=10, bd=5, bg='greenyellow', fg="black")
+        self.label = Label(self.root, text="To-Do List App", font="Arial 25 bold", width=10, bd=5, bg='greenyellow', fg="black")
         self.label.pack(side="top", fill=BOTH)
 
         # Add Task Label
-        self.label2 = Label(self.root, text="Add Task", font="ariel 18 bold", width=10, bd=5, bg="orange", fg="black")
-        self.label2.place(x=40, y=54)
+        self.label2 = Label(self.root, text="Add Task", font="Arial 18 bold", width=10, bd=5, bg="#f39c12", fg="black")
+        self.label2.place(x=40, y=60)
 
         # Tasks List Label
-        self.label3 = Label(self.root, text='Tasks', font="ariel 18 bold", width=10, bd=5, bg="orange", fg="black")
-        self.label3.place(x=320, y=54)
+        self.label3 = Label(self.root, text='Tasks', font="Arial 18 bold", width=10, bd=5, bg="#f39c12", fg="black")
+        self.label3.place(x=320, y=60)
 
         # Tasks Listbox
-        self.main_text = Listbox(self.root, height=9, bd=5, width=23, font="ariel 20 italic bold")
+        self.main_text = Listbox(self.root, height=9, bd=5, width=23, font="Arial 20 italic bold")
         self.main_text.place(x=280, y=100)
 
         # Textbox to add tasks
-        self.text = Text(self.root, bd=5, height=2, width=30, font="ariel 10 bold")
+        self.text = Text(self.root, bd=5, height=2, width=30, font="Arial 10 bold")
         self.text.place(x=40, y=100)
-
-        # Priority dropdown
-        self.priority = ttk.Combobox(self.root, values=["High", "Medium", "Low"], state="readonly")
-        self.priority.place(x=150, y=180)
 
         # Add Task Button
         self.add_button = Button(self.root, text="Add Task", command=self.add, bg="green", fg="white", relief=SOLID, font=("Helvetica", 12, "bold"))
@@ -56,7 +52,7 @@ class Todo:
     def add(self):
         content = self.text.get(1.0, END).strip()
         if content:
-            task = {'description': content, 'priority': self.priority.get()}
+            task = {'description': content, 'priority': 'None'}
             with open('tasks.json', 'a') as file:
                 json.dump(task, file)
                 file.write("\n")
@@ -78,7 +74,15 @@ class Todo:
         try:
             selected_task_index = self.main_text.curselection()[0]
             task = self.main_text.get(selected_task_index)
-            self.main_text.itemconfig(selected_task_index, {'bg': 'lightgreen'})
+            
+            # Option 1: Add a checkmark to the task to indicate completion
+            completed_task = f"✔️ {task}"
+            self.main_text.delete(selected_task_index)
+            self.main_text.insert(selected_task_index, completed_task)
+            
+            # Option 2: Change the text color to green (uncomment if preferred)
+            # self.main_text.itemconfig(selected_task_index, {'fg': 'green'})
+
         except IndexError:
             pass
 
@@ -94,14 +98,6 @@ class Todo:
                 file.truncate()
         except FileNotFoundError:
             pass
-
-    def search(self):
-        query = self.search_bar.get().lower()
-        for idx, task in enumerate(self.main_text.get(0, END)):
-            if query in task.lower():
-                self.main_text.select_set(idx)
-            else:
-                self.main_text.select_clear(idx)
 
     def load_tasks(self):
         try:
