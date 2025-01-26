@@ -10,43 +10,42 @@ class Todo:
         self.root.geometry('650x410+300+150')
         self.root.config(bg='white')
 
-        # Add header
+      
         self.label = Label(self.root, text="To-Do List App", font="Arial 25 bold", width=10, bd=5, bg='greenyellow', fg="black")
         self.label.pack(side="top", fill=BOTH)
 
-        # Add Task Label
+       
         self.label2 = Label(self.root, text="Add Task", font="Arial 18 bold", width=10, bd=5, bg="#f39c12", fg="black")
         self.label2.place(x=40, y=60)
 
-        # Tasks List Label
+        
         self.label3 = Label(self.root, text='Tasks', font="Arial 18 bold", width=10, bd=5, bg="#f39c12", fg="black")
         self.label3.place(x=320, y=60)
 
-        # Tasks Listbox
+       
         self.main_text = Listbox(self.root, height=9, bd=5, width=23, font="Arial 20 italic bold")
         self.main_text.place(x=280, y=100)
 
-        # Textbox to add tasks
+        
         self.text = Text(self.root, bd=5, height=2, width=30, font="Arial 10 bold")
         self.text.place(x=40, y=100)
 
-        # Add Task Button
+       
         self.add_button = Button(self.root, text="Add Task", command=self.add, bg="green", fg="white", relief=SOLID, font=("Helvetica", 12, "bold"))
         self.add_button.place(x=40, y=220)
 
-        # Delete Task Button
+       
         self.delete_button = Button(self.root, text="Delete Task", command=self.delete, bg="red", fg="white", relief=SOLID, font=("Helvetica", 12, "bold"))
         self.delete_button.place(x=150, y=220)
 
-        # Mark Task as Completed Button
+        
         self.completed_button = Button(self.root, text="Mark as Completed", command=self.mark_completed, bg="blue", fg="white", relief=SOLID, font=("Helvetica", 12, "bold"))
         self.completed_button.place(x=40, y=260)
 
-        # Search Bar
         self.search_bar = Entry(self.root, width=30)
         self.search_bar.place(x=40, y=300)
 
-        # Load tasks from file
+       
         self.load_tasks()
 
     def add(self):
@@ -75,13 +74,12 @@ class Todo:
             selected_task_index = self.main_text.curselection()[0]
             task = self.main_text.get(selected_task_index)
             
-            # Option 1: Add a checkmark to the task to indicate completion
+           
             completed_task = f"✔️ {task}"
             self.main_text.delete(selected_task_index)
             self.main_text.insert(selected_task_index, completed_task)
             
-            # Option 2: Change the text color to green (uncomment if preferred)
-            # self.main_text.itemconfig(selected_task_index, {'fg': 'green'})
+            
 
         except IndexError:
             pass
