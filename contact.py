@@ -45,21 +45,21 @@ class ContactBook:
         self.delete_button = tk.Button(root, text="Delete Contact", command=self.delete_contact)
         self.delete_button.pack(pady=5)
 
-       
         self.contacts_listbox = tk.Listbox(root, width=70, height=10)
         self.contacts_listbox.pack(pady=20)
 
-       e
         self.load_contacts()
 
     def load_contacts(self):
         """Load contacts from the JSON file."""
         try:
             with open("contacts.json", "r") as file:
-                self.contacts = json.load(file)
-        except FileNotFoundError:
+                # Try loading the contacts, if empty, initialize as an empty list
+                self.contacts = json.load(file) if file.read().strip() else []
+        except (FileNotFoundError, json.JSONDecodeError):
+            # Handle both missing and empty or malformed files
             self.contacts = []
-    
+
     def save_contacts(self):
         """Save contacts to the JSON file."""
         with open("contacts.json", "w") as file:
@@ -83,14 +83,14 @@ class ContactBook:
 
     def view_contacts(self):
         """Display all contacts."""
-        self.contacts_listbox.delete(0, tk.END) 
+        self.contacts_listbox.delete(0, tk.END)
         for contact in self.contacts:
             self.contacts_listbox.insert(tk.END, f"{contact['name']} - {contact['phone']}")
 
     def search_contact(self):
         """Search for a contact by name or phone number."""
         search_term = self.name_entry.get().strip()
-        self.contacts_listbox.delete(0, tk.END) 
+        self.contacts_listbox.delete(0, tk.END)
         if search_term:
             for contact in self.contacts:
                 if search_term.lower() in contact['name'].lower() or search_term in contact['phone']:
@@ -113,7 +113,6 @@ class ContactBook:
             self.address_entry.delete(0, tk.END)
             self.address_entry.insert(0, selected_contact["address"])
 
-            
             def apply_update():
                 selected_contact["name"] = self.name_entry.get().strip()
                 selected_contact["phone"] = self.phone_entry.get().strip()
