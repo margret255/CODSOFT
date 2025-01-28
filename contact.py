@@ -8,7 +8,7 @@ class ContactBook:
         self.root.title("Contact Book")
         self.root.geometry("600x500")
 
-        # Contact fields
+        
         self.name_label = tk.Label(root, text="Name:")
         self.name_label.pack(pady=10)
         self.name_entry = tk.Entry(root, width=50)
@@ -103,7 +103,7 @@ class ContactBook:
         try:
             selected_index = self.contacts_listbox.curselection()[0]
             selected_contact = self.contacts[selected_index]
-            # Pre-fill the fields with the contact's current details
+            
             self.name_entry.delete(0, tk.END)
             self.name_entry.insert(0, selected_contact["name"])
             self.phone_entry.delete(0, tk.END)
