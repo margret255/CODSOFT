@@ -52,7 +52,6 @@ def evaluate_password_strength(password):
     if any(char in string.punctuation for char in password):
         strength += 1
 
- 
     if strength == 4:
         return "Strong"
     elif strength == 3:
@@ -60,17 +59,13 @@ def evaluate_password_strength(password):
     else:
         return "Weak"
 
-
 min_length = int(input("Enter the minimum length of the password: "))
 include_numbers = input("Include numbers? (y/n): ").strip().lower() == "y"
 include_specials = input("Include special characters? (y/n): ").strip().lower() == "y"
 
-
 password = generate_password(min_length, include_numbers, include_specials)
 
-
 strength = evaluate_password_strength(password)
-
 
 print("The generated password is:", password)
 print("Password strength:", strength)
